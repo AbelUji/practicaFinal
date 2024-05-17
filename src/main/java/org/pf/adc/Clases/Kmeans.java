@@ -11,7 +11,8 @@ import org.pf.adc.Interfaces.DistanceClient;
 import java.util.*;
 
 public class Kmeans implements Algorithm<Table>, DistanceClient {
-    private int numClusters, numIterations;
+    private int numClusters;
+    private int numIterations;
     private long seed;
     private Map<Integer,List<Row>> grupos;
     private List<Row> centroides;
@@ -57,31 +58,33 @@ public class Kmeans implements Algorithm<Table>, DistanceClient {
     public void asignarPuntos(){
         for (int i = 0; i < tablaK.getRows().size(); i++) {
             int numberClass = estimate(tablaK.getRowAt(i).getData());
-            if(!grupos.get(numberClass).contains(tablaK.getRowAt(i)))
+            if(!grupos.get(numberClass).contains(tablaK.getRowAt(i))) {
                 grupos.get(numberClass).add(tablaK.getRowAt(i));
+            }
         }
     }
     @Override
     public Integer estimate(List<Double> dato){
-        int id=-1,contador=0;
+        int identificador=-1;
+        int contador=0;
         double distMin=Double.MAX_VALUE;
         for(Row element:centroides){
             double distActual=calcularDistancia(dato,element.getData());
             if(distMin > distActual){
                 distMin=distActual;
-                id=contador;
+                identificador=contador;
             }
             contador++;
         }
-        return id;
+        return identificador;
     }
 
-    public double calcularDistancia(List<Double> data_source, List<Double> data){
-        return distance.calculateDistance(data_source,data);
+    public double calcularDistancia(List<Double> dataSource, List<Double> data){
+        return distance.calculateDistance(dataSource,data);
     }
     private void randomCentroides(){
         Random random=new Random(seed);
-        for(int i=0;i<numClusters;i++){
+        for (int i = 0; i< numClusters; i++){
             int numeroRandom=random.nextInt(tablaK.getRows().size()-1);
             if(!centroides.contains(tablaK.getRowAt(numeroRandom))){
                 centroides.add(tablaK.getRowAt(numeroRandom));
@@ -90,6 +93,18 @@ public class Kmeans implements Algorithm<Table>, DistanceClient {
                 i--;
             }
         }
+
+        /*
+        int i = 0;
+        while(i++ < numClusters){
+            int numeroRandom=random.nextInt(tablaK.getRows().size()-1);
+            if(!centroides.contains(tablaK.getRowAt(numeroRandom))){
+                centroides.add(tablaK.getRowAt(numeroRandom));
+                grupos.put(i,new ArrayList<>());
+            }else{
+                i--;
+            }
+        }*/
     }
     private Row meanCentroide(List<Row> rows) {
         Row devolver=new Row();

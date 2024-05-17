@@ -11,6 +11,10 @@ import java.io.IOException;
 public class ImplementacionControlador implements Controlador{
     private Vista vista;
     private Modelo modelo;
+
+    public ImplementacionControlador(){
+
+    }
     @Override
     public void setVista(Vista vista) {
         this.vista=vista;

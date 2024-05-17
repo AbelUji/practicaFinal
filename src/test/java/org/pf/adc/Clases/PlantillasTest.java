@@ -17,7 +17,7 @@ class PlantillasTest {
     CSV miCSV;
     KNN miKNN;
     TableWithLabels table;
-    private List<Double> lista0,lista1,lista2,lista3,lista4;
+    private List<Double> lista0,lista1,lista3,lista4;
 
     @BeforeEach
     void antesDe() throws FileNotFoundException {
@@ -26,7 +26,6 @@ class PlantillasTest {
 
         lista0=Arrays.asList(5.0,0.0,7.0,1.0);
         lista1=Arrays.asList(5.0,5.0,5.0,5.0);
-        lista2=Arrays.asList(3.6,3.9,1.9,6.4);
         lista3=Arrays.asList(-1.0,-1.0,-1.0,-1.0);
         lista4=Arrays.asList(0.0,0.0,0.0,0.0);
 

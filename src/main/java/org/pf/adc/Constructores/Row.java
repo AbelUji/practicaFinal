@@ -14,8 +14,8 @@ public class Row {
         return data;
     }
 
-    public void addFila(Double n){
-        data.add(n);
+    public void addFila(Double fila){
+        data.add(fila);
     }
 
     public void addListaFila(List<Double> data){

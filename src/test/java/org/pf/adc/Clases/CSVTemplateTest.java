@@ -2,6 +2,7 @@ package org.pf.adc.Clases;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.pf.adc.Constructores.Table;
 import org.pf.adc.Constructores.TableWithLabels;
 import org.pf.adc.Plantilla.CSVLabeledFileReader;
@@ -15,49 +16,45 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class CSVTemplateTest {
-    private CSVUnlabeledFileReader fichero1;
-    private CSVLabeledFileReader fichero2;
     private Table tabla1;
     private TableWithLabels tabla2;
 
-    @org.junit.jupiter.api.Test
     @BeforeEach
     void antesDe() throws IOException {
         //Tabla sin etiquetas
-        fichero1=new CSVUnlabeledFileReader("src\\main\\resources\\files\\miles_dollars.csv");
+        CSVUnlabeledFileReader fichero1 =new CSVUnlabeledFileReader("src\\main\\resources\\files\\miles_dollars.csv");
         tabla1=fichero1.readTableFromSource();
 
         //Tabla con etiquetas
-        fichero2=new CSVLabeledFileReader("src\\main\\resources\\files\\iris.csv");
+        CSVLabeledFileReader fichero2=new CSVLabeledFileReader("src\\main\\resources\\files\\iris.csv");
         fichero2.readTableFromSource();
         tabla2=fichero2.getTable();
 
     }
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test numero de filas")
     void numeroFilas(){
 
         //Segunda prueba
-        assertEquals(25,tabla1.getRows().size());
+        assertEquals(25,tabla1.getRows().size(), "Error en numero de filas");
 
         //Tercera prueba
 
-        assertEquals(150,tabla2.getRows().size());
+        assertEquals(150,tabla2.getRows().size(), "Error en numero de filas");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test numero de columnas")
     void numeroColumnas() {
 
-
         //Segunda prueba
-        assertEquals(2,tabla1.getHeaders().size());
+        assertEquals(2,tabla1.getHeaders().size(),"Error en numero de columnas");
 
         //Tercera prueba
-        assertEquals(5,tabla2.getHeaders().size());
+        assertEquals(5,tabla2.getHeaders().size(),"Error en numero de columnas");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test nombre de etiquetas")
     void nombreEtiquetas() {
 
@@ -65,16 +62,16 @@ class CSVTemplateTest {
 
 
         //Segunda prueba
-        assertEquals(etiquetas,tabla1.getHeaders());
+        assertEquals(etiquetas,tabla1.getHeaders(),"Error en nombre de etiquetas");
 
         //Tercera prueba
 
         List<String> etiquetas2=Arrays.asList("sepal length","sepal width","petal length","petal width","class");
 
-        assertEquals(etiquetas2,tabla2.getHeaders());
+        assertEquals(etiquetas2,tabla2.getHeaders(),"Error en nombre de etiquetas");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test numero asignado")
     void numeroAsignado() {
 
@@ -88,7 +85,7 @@ class CSVTemplateTest {
         assertEquals(1,tabla2.getRowAt(33).getNumberClass());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test recuperar datos")
     void recuperarDatos() {
         List<Double> ej1= Arrays.asList(4.8,3.4,1.6,0.2); //12

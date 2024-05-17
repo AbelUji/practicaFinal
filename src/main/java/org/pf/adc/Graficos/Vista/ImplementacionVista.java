@@ -18,15 +18,17 @@ import org.pf.adc.Patrones.ManhattanDistance;
 import java.io.IOException;
 
 public class ImplementacionVista implements Vista{
-    private VBox estruc_global, rec_radio, dist_radio, lista_canciones,bot_aceptar;
+    private VBox recRadio, distRadio, listaCanciones, botAceptar;
     private StackPane root;
     private Stage stage;
     private Button boton;
     private ListView<String> lista;
-    private RadioButton rec_song_feature, rec_guess_genre, dist_euclid, dist_manh;
+    private RadioButton recSongFeature, recGuessGenre, distEuclid, distManh;
     private Controlador controlador;
     private Modelo modelo;
 
+    private static final String ACTION_1 = "-fx-font-size: 20px;";
+    private static final String ACTION_2 = "-fx-font-weight: bold;";
     public ImplementacionVista(Stage stage){
         this.stage=stage;
         root = new StackPane();
@@ -38,62 +40,60 @@ public class ImplementacionVista implements Vista{
         stage.setScene(new Scene(root, 400, 660));
     }
     public void crearRecType(){
-        HBox hlabel_rec_type = new HBox(new Label("Recommendation Type"));
-        hlabel_rec_type.setAlignment(Pos.BASELINE_LEFT);
-        hlabel_rec_type.setPadding(new Insets(2,0,0,4));
-        hlabel_rec_type.setStyle("-fx-font-size: 20px;" + "-fx-font-weight: bold;");
+        HBox hlabelRecType = new HBox(new Label("Recommendation Type"));
+        hlabelRecType.setAlignment(Pos.BASELINE_LEFT);
+        hlabelRecType.setPadding(new Insets(2,0,0,4));
+        hlabelRecType.setStyle(ACTION_1 + ACTION_2);
 
         ToggleGroup grupo = new ToggleGroup();
-        rec_song_feature = new RadioButton("Recommended based on song features");
-        rec_song_feature.setStyle("-fx-font-size: 13px;");
-        rec_guess_genre = new RadioButton("Recommended based on guessed genre");
-        rec_guess_genre.setStyle("-fx-font-size: 13px;");
+        recSongFeature = new RadioButton("Recommended based on song features");
+        recSongFeature.setStyle("-fx-font-size: 13px;");
+        recGuessGenre = new RadioButton("Recommended based on guessed genre");
+        recGuessGenre.setStyle("-fx-font-size: 13px;");
 
-        rec_song_feature.setToggleGroup(grupo);
-        rec_guess_genre.setToggleGroup(grupo);
+        recSongFeature.setToggleGroup(grupo);
+        recGuessGenre.setToggleGroup(grupo);
 
-        VBox vRadio= new VBox(rec_song_feature, rec_guess_genre);
+        VBox vRadio= new VBox(recSongFeature, recGuessGenre);
         vRadio.setSpacing(5);
         vRadio.setPadding(new Insets(7,0,0,4));
-        rec_radio = new VBox(hlabel_rec_type, vRadio);
+        recRadio = new VBox(hlabelRecType, vRadio);
     }
 
     public void crearDistType(){
-        HBox hlabel_dist_type = new HBox(new Label("Distance Type"));
-        hlabel_dist_type.setAlignment(Pos.BASELINE_LEFT);
-        hlabel_dist_type.setPadding(new Insets(9,0,0,4));
-        hlabel_dist_type.setStyle("-fx-font-size: 20px;"+ "-fx-font-weight: bold;");
+        HBox hlabelDistType = new HBox(new Label("Distance Type"));
+        hlabelDistType.setAlignment(Pos.BASELINE_LEFT);
+        hlabelDistType.setPadding(new Insets(9,0,0,4));
+        hlabelDistType.setStyle(ACTION_1+ ACTION_2);
 
         ToggleGroup grupo = new ToggleGroup();
-        dist_euclid = new RadioButton("Euclidean");
-        dist_manh = new RadioButton("Manhattan");
+        distEuclid = new RadioButton("Euclidean");
+        distManh = new RadioButton("Manhattan");
 
-        dist_euclid.setToggleGroup(grupo);
-        dist_manh.setToggleGroup(grupo);
+        distEuclid.setToggleGroup(grupo);
+        distManh.setToggleGroup(grupo);
 
-        VBox vRadio= new VBox(dist_euclid, dist_manh);
+        VBox vRadio= new VBox(distEuclid, distManh);
         vRadio.setSpacing(3);
         vRadio.setPadding(new Insets(7,0,0,4));
-        dist_radio = new VBox(hlabel_dist_type, vRadio);
+        distRadio = new VBox(hlabelDistType, vRadio);
     }
 
     public void crearListaCanciones() throws IOException {
-        HBox hlabel_title = new HBox(new Label("Song Titles"));
-        hlabel_title.setAlignment(Pos.BASELINE_LEFT);
-        hlabel_title.setPadding(new Insets(9,0,0,4));
-        hlabel_title.setStyle("-fx-font-size: 20px;"+ "-fx-font-weight: bold;");
+        HBox hlabelTitle = new HBox(new Label("Song Titles"));
+        hlabelTitle.setAlignment(Pos.BASELINE_LEFT);
+        hlabelTitle.setPadding(new Insets(9,0,0,4));
+        hlabelTitle.setStyle(ACTION_1+ ACTION_2);
 
 
         String sep = System.getProperty("file.separator");
         String ruta = "src/main/resources/files";
         lista = new ListView<>(FXCollections.observableArrayList(modelo.anadirCanciones(ruta+sep+"songs_test_names.csv")));
-        lista.getSelectionModel().selectedItemProperty().addListener((item, valorInicial, valorActual) -> {
-            boton.setText("Recommended on "+ valorActual);
-        });
+        lista.getSelectionModel().selectedItemProperty().addListener((item, valorInicial, valorActual) -> boton.setText("Recommended on "+ valorActual));
 
         Tooltip tip=new Tooltip("Double click for recommendations based on this song");
         Tooltip.install(lista,tip);
-        lista_canciones=new VBox(hlabel_title,lista);
+        listaCanciones =new VBox(hlabelTitle,lista);
     }
 
     public void dobleClickLista(){
@@ -135,12 +135,12 @@ public class ImplementacionVista implements Vista{
             }
         });
         boton.setStyle("-fx-text-fill: rgb(49, 89, 23);" + "-fx-border-color: rgb(49, 89, 23);" + "-fx-border-radius: 5;\n" + "-fx-padding: 3 6 6 6;");
-        bot_aceptar=new VBox(boton);
-        bot_aceptar.setPadding(new Insets(15,0,0,0));
-        bot_aceptar.setAlignment(Pos.CENTER);
+        botAceptar =new VBox(boton);
+        botAceptar.setPadding(new Insets(15,0,0,0));
+        botAceptar.setAlignment(Pos.CENTER);
     }
     private String recomendacionElegida(){
-        if (rec_song_feature.isSelected()){
+        if (recSongFeature.isSelected()){
             return "knn";
         }else{
             return "kmeans";
@@ -148,7 +148,7 @@ public class ImplementacionVista implements Vista{
     }
 
     private Distance distanciaElegida(){
-        if (dist_euclid.isSelected()){
+        if (distEuclid.isSelected()){
             return new EuclideanDistance();
         }else{
             return new ManhattanDistance();
@@ -156,13 +156,13 @@ public class ImplementacionVista implements Vista{
     }
 
     private boolean comprobaciones(){
-        return (dist_euclid.isSelected() || dist_manh.isSelected()) && (rec_guess_genre.isSelected() || rec_song_feature.isSelected()) && lista.getSelectionModel().getSelectedIndex() != -1;
+        return (distEuclid.isSelected() || distManh.isSelected()) && (recGuessGenre.isSelected() || recSongFeature.isSelected()) && lista.getSelectionModel().getSelectedIndex() != -1;
     }
 
     @Override
     public void montarStage(){
-        estruc_global = new VBox(rec_radio,dist_radio,lista_canciones,bot_aceptar);
-        root.getChildren().add(estruc_global);
+        VBox estrucGlobal = new VBox(recRadio, distRadio, listaCanciones, botAceptar);
+        root.getChildren().add(estrucGlobal);
     }
 
     @Override

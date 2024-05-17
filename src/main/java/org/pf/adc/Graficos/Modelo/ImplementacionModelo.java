@@ -19,7 +19,13 @@ import java.util.Map;
 
 public class ImplementacionModelo implements Modelo{
     private Vista vista;
-    private RecSys recsys;
+    private RecSys recVariable;
+    private static final String ACTION_1 = "train";
+    private static final String ACTION_2 = "kmeans";
+
+    public ImplementacionModelo(){
+
+    }
     @Override
     public void setVista(Vista vista) {
         this.vista=vista;
@@ -30,51 +36,51 @@ public class ImplementacionModelo implements Modelo{
         String sep = System.getProperty("file.separator");
         String ruta = "src\\main\\resources\\files";
 
-        // File names (could be provided as arguments to the constructor to be more general)
+        // File names (could be provided as arguments to the constructor)
         Map<String,String> filenames = new HashMap<>();
-        filenames.put("knn"+"train",ruta+sep+"songs_train.csv");
+        filenames.put("knn"+ACTION_1,ruta+sep+"songs_train.csv");
         filenames.put("knn"+"test",ruta+sep+"songs_test.csv");
-        filenames.put("kmeans"+"train",ruta+sep+"songs_train_withoutnames.csv");
-        filenames.put("kmeans"+"test",ruta+sep+"songs_test_withoutnames.csv");
+        filenames.put(ACTION_2+ACTION_1,ruta+sep+"songs_train_withoutnames.csv");
+        filenames.put(ACTION_2+"test",ruta+sep+"songs_test_withoutnames.csv");
 
         // Algorithms
         Map<String, Algorithm> algorithms = new HashMap<>();
         algorithms.put("knn",new KNN(distancia));
-        algorithms.put("kmeans",new Kmeans(15, 200, 4321, distancia));
+        algorithms.put(ACTION_2,new Kmeans(15, 200, 4321, distancia));
 
         // Tables
         Map<String, Table> tables = new HashMap<>();
-        String [] stages = {"train", "test"};
+        String [] stages = {ACTION_1, "test"};
         CSV csv = new CSV();
         for (String stage : stages) {
             tables.put("knn" + stage, csv.readTableWithLabels(filenames.get("knn" + stage)));
-            tables.put("kmeans" + stage, csv.readTable(filenames.get("kmeans" + stage)));
+            tables.put(ACTION_2 + stage, csv.readTable(filenames.get(ACTION_2 + stage)));
         }
 
         // Names of items
         List<String> names = anadirCanciones(ruta+sep+"songs_test_names.csv");
 
         // Start the RecSys
-        this.recsys = new RecSys(algorithms.get(method));
-        this.recsys.train(tables.get(method+"train"));
-        this.recsys.run(tables.get(method+"test"), names);
+        this.recVariable = new RecSys(algorithms.get(method));
+        this.recVariable.train(tables.get(method+ACTION_1));
+        this.recVariable.run(tables.get(method+"test"), names);
     }
 
     public List<String> anadirCanciones(String fichero) throws IOException {
         String line;
         List<String> names = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(fichero));
 
-        while ((line = br.readLine()) != null) {
-            names.add(line);
+        try(BufferedReader br = new BufferedReader(new FileReader(fichero))) {
+            while ((line = br.readLine()) != null) {
+                names.add(line);
+            }
+            return names;
         }
-        br.close();
-        return names;
     }
 
     @Override
     public RecSys getRecsys(){
-        return this.recsys;
+        return this.recVariable;
     }
 
     public void gestionarStage() throws ClusterException, IOException {

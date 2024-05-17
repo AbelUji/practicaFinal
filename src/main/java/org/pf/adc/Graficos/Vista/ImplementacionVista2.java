@@ -19,7 +19,7 @@ import java.io.IOException;
 public class ImplementacionVista2 implements Vista{
     private StackPane root;
     private Stage stage;
-    private VBox estruc_global, vLista, bot_aceptar;
+    private VBox vLista, botAceptar;
     private HBox vNumRec;
     private Controlador controlador;
     private Modelo modelo;
@@ -27,7 +27,6 @@ public class ImplementacionVista2 implements Vista{
     private String cancionElegida, algoritmoElegido;
     private Distance distanciaElegida;
     private ListView<String> lista;
-    private Button boton;
 
     public ImplementacionVista2(Stage stage, String recomendada, String algor, Distance distancia){
         this.stage=stage;
@@ -44,8 +43,8 @@ public class ImplementacionVista2 implements Vista{
 
     public void crearNumRec() throws ClusterException, IOException {
         controlador.setCancionesRecomendadas(algoritmoElegido,distanciaElegida);
-        Label label_rec_type = new Label("Number of recommendations (Maximo: "+modelo.getRecsys().getGrupo(cancionElegida)+"):");
-        label_rec_type.setPadding(new Insets(2,6,0,4));
+        Label labelRecType = new Label("Number of recommendations (Maximo: "+modelo.getRecsys().getGrupo(cancionElegida)+"):");
+        labelRecType.setPadding(new Insets(2,6,0,4));
 
         spinner = new Spinner<>();
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, modelo.getRecsys().getGrupo(cancionElegida),14);
@@ -55,32 +54,32 @@ public class ImplementacionVista2 implements Vista{
         lista.setPadding(new Insets(2,0,0,4));
 
         spinner.valueProperty().addListener(((observableValue, integer, t1) -> {lista.setItems(FXCollections.observableArrayList(modelo.getRecsys().recommend(cancionElegida, spinner.getValue())));}));
-        vNumRec= new HBox(label_rec_type, spinner);
+        vNumRec= new HBox(labelRecType, spinner);
         vNumRec.setPadding(new Insets(6,0,0,0));
     }
 
     public void recomendadas(){
-        HBox hlabel_rec = new HBox(new Label("If you liked '"+cancionElegida+"' you might like"));
-        hlabel_rec.setPadding(new Insets(15,0,0,4));
+        HBox hlabelRec = new HBox(new Label("If you liked '"+cancionElegida+"' you might like"));
+        hlabelRec.setPadding(new Insets(15,0,0,4));
 
-        vLista=new VBox(hlabel_rec,lista);
+        vLista=new VBox(hlabelRec,lista);
     }
 
     public void buttonClose(){
-        boton = new Button("Close recommendation");
+        Button boton = new Button("Close recommendation");
 
         boton.setOnAction(actionEvent -> stage.close());
 
         boton.setStyle("-fx-text-fill: rgb(49, 89, 23);" + "-fx-border-color: rgb(49, 89, 23);" + "-fx-border-radius: 5;\n" + "-fx-padding: 3 6 6 6;");
-        bot_aceptar=new VBox(boton);
-        bot_aceptar.setPadding(new Insets(15,0,5,0));
-        bot_aceptar.setAlignment(Pos.CENTER);
+        botAceptar =new VBox(boton);
+        botAceptar.setPadding(new Insets(15,0,5,0));
+        botAceptar.setAlignment(Pos.CENTER);
     }
 
     @Override
     public void montarStage() {
-        estruc_global=new VBox(vNumRec,vLista, bot_aceptar);
-        root.getChildren().add(estruc_global);
+        VBox estrucGlobal =new VBox(vNumRec,vLista, botAceptar);
+        root.getChildren().add(estrucGlobal);
     }
 
     @Override

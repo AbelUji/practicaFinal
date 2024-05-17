@@ -10,8 +10,8 @@ public class RowWithLabel extends Row {
     public int getNumberClass() {
         return numberClass;
     }
-    public void addNumberClass(int n){
-        numberClass=n;
+    public void addNumberClass(int clase){
+        numberClass=clase;
     }
 
 }

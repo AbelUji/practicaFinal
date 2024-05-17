@@ -2,6 +2,7 @@ package org.pf.adc.Clases;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.pf.adc.Constructores.Table;
 import org.pf.adc.Constructores.TableWithLabels;
 
@@ -14,23 +15,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class CSVTest {
-    private CSV fichero1, fichero2, fichero3;
     private Table tabla1, tabla3;
     private TableWithLabels tabla2;
 
-    @org.junit.jupiter.api.Test
     @BeforeEach
     void antesDe() throws IOException {
         //Tabla sin etiquetas
-        fichero1=new CSV();
+        CSV fichero1=new CSV();
         tabla1=fichero1.readTable("src\\main\\resources\\files\\miles_dollars.csv");
 
         //Tabla con etiquetas
-        fichero2=new CSV();
+        CSV fichero2 =new CSV();
         tabla2=fichero2.readTableWithLabels("src\\main\\resources\\files\\iris.csv");
 
         //Tabla vacia
-        fichero3=new CSV();
+        CSV fichero3=new CSV();
         tabla3=fichero3.readTable("src\\main\\resources\\files\\vacio.csv");
     }
     @org.junit.jupiter.api.Test
@@ -47,7 +46,7 @@ class CSVTest {
         assertEquals(150,tabla2.getRows().size());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test numero de columnas")
     void numeroColumnas() {
 
@@ -61,7 +60,7 @@ class CSVTest {
         assertEquals(5,tabla2.getHeaders().size());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test nombre de etiquetas")
     void nombreEtiquetas() {
 
@@ -80,7 +79,7 @@ class CSVTest {
         assertEquals(etiquetas2,tabla2.getHeaders());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test numero asignado")
     void numeroAsignado() {
 
@@ -94,7 +93,7 @@ class CSVTest {
         assertEquals(1,tabla2.getRowAt(33).getNumberClass());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test recuperar datos")
     void recuperarDatos() {
         List<Double> ej1= Arrays.asList(4.8,3.4,1.6,0.2); //12

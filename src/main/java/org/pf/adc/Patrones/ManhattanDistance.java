@@ -5,6 +5,9 @@ import org.pf.adc.Interfaces.Distance;
 import java.util.List;
 
 public class ManhattanDistance implements Distance {
+    public ManhattanDistance(){
+
+    }
     @Override
     public double calculateDistance(List<Double> p, List<Double> q) {
         double amount=-1;

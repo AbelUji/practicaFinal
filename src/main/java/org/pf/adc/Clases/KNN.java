@@ -32,8 +32,8 @@ public class KNN implements Algorithm<TableWithLabels>, DistanceClient {
         }
         return numberClass;
     }
-    public double calcularDistancia(List<Double> data_source, List<Double> data){
-        return distance.calculateDistance(data_source,data);
+    public double calcularDistancia(List<Double> dataSource, List<Double> data){
+        return distance.calculateDistance(dataSource,data);
     }
 
     @Override

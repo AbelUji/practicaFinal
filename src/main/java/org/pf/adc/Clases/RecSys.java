@@ -1,6 +1,5 @@
 package org.pf.adc.Clases;
 
-import org.pf.adc.Constructores.Row;
 import org.pf.adc.Constructores.Table;
 import org.pf.adc.Excepciones.ClusterException;
 import org.pf.adc.Interfaces.Algorithm;
@@ -26,25 +25,28 @@ public class RecSys {
             if(!grupos.containsKey(numClase)){
                 grupos.put(numClase,new ArrayList<>());
             }
+
             grupos.get(numClase).add(testItemNames.get(i));
         }
     }
-    public List<String> recommend(String nameLikedItem, int numRecommendations){
+    public List<String> recommend(String nameLikedItem, int numRecomms){
         int numClase=findName(nameLikedItem);
         if(numClase!=-1){
             List<String> devolver=new ArrayList<>();
-            for(int i=0;i<grupos.get(numClase).size() && devolver.size()<numRecommendations;i++){
+            for(int i=0;i<grupos.get(numClase).size() && devolver.size()<numRecomms;i++){
                 String name=grupos.get(numClase).get(i);
                 if(name.compareTo(nameLikedItem)!=0 && !devolver.contains(name)){
                     devolver.add(name);
                 }
             }
             return devolver;
-        }else
-            return null;
+        }else {
+            return Collections.emptyList();
+        }
     }
     public Integer findName(String nameLikedItem){
-        for (Integer key:grupos.keySet()){
+        for (Map.Entry<Integer, List<String>> entry: grupos.entrySet()) {
+            Integer key = entry.getKey();
             if(grupos.get(key).contains(nameLikedItem)){
                 return key;
             }
